@@ -8,6 +8,7 @@ var block_size
 
 var heart_amount = 0
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if get_tree().get_nodes_in_group("players"):
@@ -36,3 +37,6 @@ func _process(delta):
 		for health in player.health:
 			var h = Heart.instance()
 			$PlayerHealth.add_child(h)
+	
+	# update grapple reload with grapple timer from player
+	$MarginContainer/GrappleReload.value = 100- ((player.grapple_timer.time_left / player.grapple_delay) * 100)

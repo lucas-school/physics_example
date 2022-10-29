@@ -36,6 +36,7 @@ margin_bottom = 40.0
 [node name="NewGame" type="TextureButton" parent="MarginContainer2"]
 margin_right = 296.0
 margin_bottom = 80.0
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 5 )
 texture_hover = ExtResource( 5 )

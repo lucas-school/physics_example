@@ -25,9 +25,10 @@ onready var grapple_timer = $Timers/GrappleTimer
 var grapple_length = 1000
 var grapple_pos = Vector2.ZERO
 var grapple_dir = Vector2.ZERO
-var grapple_close_range = 50
+var grapple_close_range = 100
 var grapple_result
 var moving_on_grapple = false
+var grapple_delay = 1.2 #sec
 
 var attacked = false
 
@@ -77,7 +78,7 @@ func _physics_process(delta):
 			grapple_result = space_state.intersect_ray(position, position + mouse_dir * grapple_length, [self])
 			if grapple_result:
 				moving_on_grapple = true
-				grapple_timer.start(.2)
+				grapple_timer.start(grapple_delay)
 			
 
 	

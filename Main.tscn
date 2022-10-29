@@ -1,0 +1,175 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Mapgen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Mob.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Snow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://SnowyMountainBackground.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (PackedScene) var Mob
+
+var map
+var player
+
+var block_size
+
+var max_mobs = 15
+var despawn_distance = 10000
+
+var rng = RandomNumberGenerator.new()
+
+var is_player = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	if get_tree().get_nodes_in_group(\"maps\"):
+		map = get_tree().get_nodes_in_group(\"maps\")[0]
+	if get_tree().get_nodes_in_group(\"players\"):
+		player = get_tree().get_nodes_in_group(\"players\")[0]
+		is_player = true
+		
+	block_size = map.cell_size * map.scale
+	
+	
+	rng.randomize()
+	
+	var p_spawn = get_spawn_point()
+	player.position = p_spawn
+	
+
+	
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+# warning-ignore:unused_argument
+func _process(delta):
+	#despawn far mobs
+	for mob in get_tree().get_nodes_in_group(\"mobs\"):
+		if mob.position.distance_to(player.position) > despawn_distance:
+			print(\"[\" + str(mob.name) + \"] has been despawned\")
+			mob.queue_free()
+		
+
+func _on_MobSpawn_timeout():
+	var mob_count = len(get_tree().get_nodes_in_group(\"mobs\"))
+	if mob_count < max_mobs:
+		#player pos on map
+		var player_pos = Vector2(round(player.position.x/block_size.x-32),round(player.position.y/block_size.x))
+		
+		var rx = 0
+		var ry = 0
+		var cell = -1
+		
+		var attempts = 0
+		var success = false
+		#keep rerolling cell until cell isn't air and doesn't have a block above it
+		#also only roll # from 10 blockaway from player - 30 blocks
+		while cell == -1:
+		# random polarity
+			attempts += 1
+			if attempts > 2000:
+				print(\"Mob spawn aborted. \" + str(attempts) + \" attempts\")
+				success=false
+				break
+			else:
+				success=true
+			var rp = rng.randf_range(0,1)
+			if rp > .5:
+				rp = 1
+			else:
+				rp = -1
+			rx = round(rng.randf_range(player_pos.x + 15,player_pos.x + 40)) * rp
+			rp = rng.randf_range(0,1)
+			if rp > .5:
+				rp = 1
+			else:
+				rp = -1
+			ry = round(rng.randf_range(player_pos.y + 15,player_pos.y + 40)) * rp
+			cell = map.get_cell(rx,ry)
+			
+			var cell_above = map.get_cell(rx, ry-1)
+			if cell_above != -1:
+				cell = -1
+		if success:
+			var mob = Mob.instance()
+			#print(Vector2(rx,ry))
+			#print(map.get_cell(rx,ry))
+			#print(map.get_cell(rx,ry-1))
+			
+			# set spawnpoint higher in the air so doesnt get stuck 
+			var spawnpoint = Vector2(block_size.x*rx,block_size.x*ry - block_size.x)
+			spawnpoint.y -= block_size.x
+			
+			mob.position = spawnpoint
+			
+			#randomize mob speed a little
+			mob.speed *= rng.randf_range(.93,1)
+			
+			$Mobs.add_child(mob)
+			print(\"Spawned mob [\" + str(mob.name) + \"] at \" + str(conv_to_block_coord(mob.position)))
+	
+
+func conv_to_block_coord(location):
+	location.x /= block_size.x
+	location.y /= block_size.x * -1
+	return location
+
+func get_spawn_point():
+	var rx = 0
+	var ry = 0
+	var cell = -1
+	#keep rerolling cell until cell isn't air and doesn't have a block above it
+	while cell == -1:
+		rx = round(rng.randf_range(0,map.width))
+		ry = round(rng.randf_range(0,map.height))
+		cell = map.get_cell(rx,ry)
+		
+		var cell_above = map.get_cell(rx, ry-1)
+		if cell_above != -1:
+			cell = -1
+
+	#print(Vector2(rx,ry))
+	#print(map.get_cell(rx,ry))
+	#print(map.get_cell(rx,ry-1))
+	
+	# set spawnpoint higher in the air so doesnt get stuck
+	var spawnpoint = Vector2(block_size.x*rx,block_size.x*ry-block_size.x)
+	spawnpoint.y -= block_size.x
+	
+	
+	return spawnpoint
+"
+
+[node name="Main" type="Node2D"]
+script = SubResource( 1 )
+Mob = ExtResource( 2 )
+
+[node name="ParallaxBackground2" parent="." instance=ExtResource( 5 )]
+offset = Vector2( 500, -600 )
+scale = Vector2( 3, 3 )
+transform = Transform2D( 3, 0, 0, 3, 500, -600 )
+
+[node name="Snow" parent="." instance=ExtResource( 3 )]
+layer = -4
+offset = Vector2( 0, -100 )
+transform = Transform2D( 1, 0, 0, 1, 0, -100 )
+
+[node name="Mapgen" parent="." instance=ExtResource( 1 )]
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="MobSpawn" type="Timer" parent="."]
+wait_time = 4.5
+autostart = true
+
+[node name="Mobs" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource( 7 )]
+__meta__ = {
+"_edit_group_": true
+}
+
+[connection signal="timeout" from="MobSpawn" to="." method="_on_MobSpawn_timeout"]

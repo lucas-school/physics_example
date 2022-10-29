@@ -1,0 +1,257 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://SnowyMountainBackground.tscn" type="PackedScene" id=1]
+[ext_resource path="res://StartScreen.gd" type="Script" id=2]
+[ext_resource path="res://art/Pixel Game UI/Assets/New Game.png" type="Texture" id=3]
+[ext_resource path="res://art/Pixel Game UI/Assets/New Game_2.png" type="Texture" id=4]
+[ext_resource path="res://art/Pixel Game UI/Assets/Settings_2.png" type="Texture" id=5]
+[ext_resource path="res://art/Pixel Game UI/Assets/Settings.png" type="Texture" id=6]
+[ext_resource path="res://art/Pixel Game UI/Assets/Exit_2.png" type="Texture" id=7]
+[ext_resource path="res://art/Pixel Game UI/Assets/Exit.png" type="Texture" id=8]
+[ext_resource path="res://art/Pixel Game UI/Assets/Credits.png" type="Texture" id=9]
+[ext_resource path="res://art/Pixel Game UI/Assets/Credits_2.png" type="Texture" id=10]
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://art/Lady Radical.ttf"
+
+[sub_resource type="DynamicFont" id=8]
+size = 60
+font_data = SubResource( 4 )
+
+[sub_resource type="Theme" id=6]
+default_font = SubResource( 8 )
+
+[sub_resource type="Theme" id=9]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="ParallaxBackground" parent="." instance=ExtResource( 1 )]
+offset = Vector2( 450, -600 )
+scale = Vector2( 3, 3 )
+transform = Transform2D( 3, 0, 0, 3, 450, -600 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 512, 304 )
+z_as_relative = false
+current = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="SinTimer" type="Timer" parent="."]
+wait_time = 4096.0
+autostart = true
+
+[node name="Home" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Home"]
+anchor_right = 1.0
+margin_top = 75.0
+
+[node name="Title" type="Label" parent="Home/MarginContainer"]
+margin_right = 1024.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 600, 80 )
+theme = SubResource( 6 )
+text = "CAVE CRAWLERS"
+align = 1
+valign = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Home"]
+margin_left = 344.0
+margin_top = 240.0
+margin_right = 640.0
+margin_bottom = 320.0
+
+[node name="Start" type="TextureButton" parent="Home/MarginContainer2"]
+margin_right = 296.0
+margin_bottom = 80.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+expand = true
+
+[node name="MarginContainer4" type="MarginContainer" parent="Home"]
+margin_left = 344.0
+margin_top = 345.0
+margin_right = 640.0
+margin_bottom = 425.0
+
+[node name="Settings" type="TextureButton" parent="Home/MarginContainer4"]
+margin_right = 296.0
+margin_bottom = 80.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 5 )
+expand = true
+
+[node name="MarginContainer5" type="MarginContainer" parent="Home"]
+margin_left = 344.0
+margin_top = 450.0
+margin_right = 640.0
+margin_bottom = 530.0
+
+[node name="Credits" type="TextureButton" parent="Home/MarginContainer5"]
+margin_right = 296.0
+margin_bottom = 80.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 10 )
+texture_hover = ExtResource( 10 )
+expand = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="Home"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = -100.0
+
+[node name="Version" type="Label" parent="Home/MarginContainer3"]
+modulate = Color( 0, 0, 0, 1 )
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 600, 80 )
+theme = SubResource( 9 )
+text = "Version 0"
+valign = 2
+
+[node name="Settings" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Settings"]
+anchor_right = 1.0
+margin_left = 3200.0
+margin_top = 75.0
+margin_right = 809.0
+margin_bottom = 155.0
+
+[node name="Settings" type="Label" parent="Settings/MarginContainer"]
+margin_right = 600.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 600, 80 )
+theme = SubResource( 6 )
+text = "SETTINGS"
+align = 1
+valign = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Settings"]
+margin_left = 3418.0
+margin_top = 240.0
+margin_right = 3566.0
+margin_bottom = 320.0
+
+[node name="Exit" type="TextureButton" parent="Settings/MarginContainer2"]
+margin_right = 148.0
+margin_bottom = 80.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+expand = true
+
+[node name="Credits" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Credits"]
+anchor_right = 1.0
+margin_left = -2800.0
+margin_top = 75.0
+margin_right = -2240.0
+margin_bottom = 155.0
+
+[node name="Credits" type="Label" parent="Credits/MarginContainer"]
+margin_right = 600.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 600, 80 )
+theme = SubResource( 6 )
+text = "CREDITS"
+align = 1
+valign = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="Credits"]
+anchor_right = 1.0
+margin_left = -2878.0
+margin_top = 168.0
+margin_right = -2162.0
+margin_bottom = 424.0
+
+[node name="Label" type="Label" parent="Credits/MarginContainer3"]
+margin_top = 70.0
+margin_right = 756.0
+margin_bottom = 186.0
+text = "Game made by Lucas Wein 2022
+
+Player damage sound taken from youtube (https://www.youtube.com/watch?v=7GDq2MKjyec&ab_channel=Jocabundus)
+
+Snowy mountains background taken from itch.io (https://vnitti.itch.io/glacial-mountains-parallax-background)
+
+"
+align = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Credits"]
+margin_left = -2582.0
+margin_top = 442.0
+margin_right = -2434.0
+margin_bottom = 522.0
+
+[node name="Exit" type="TextureButton" parent="Credits/MarginContainer2"]
+margin_right = 148.0
+margin_bottom = 80.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+expand = true
+
+[node name="Template" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Template"]
+anchor_right = 1.0
+margin_left = 3200.0
+margin_top = 75.0
+margin_right = 809.0
+margin_bottom = 155.0
+
+[node name="Settings" type="Label" parent="Template/MarginContainer"]
+margin_right = 600.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 600, 80 )
+theme = SubResource( 6 )
+text = "SETTINGS"
+align = 1
+valign = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Template"]
+margin_left = 3418.0
+margin_top = 240.0
+margin_right = 3566.0
+margin_bottom = 320.0
+
+[node name="Exit" type="TextureButton" parent="Template/MarginContainer2"]
+margin_right = 148.0
+margin_bottom = 80.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+expand = true
+
+[connection signal="pressed" from="Home/MarginContainer2/Start" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="Home/MarginContainer4/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="Home/MarginContainer5/Credits" to="." method="_on_Credits_pressed"]
+[connection signal="pressed" from="Settings/MarginContainer2/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="Credits/MarginContainer2/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="Template/MarginContainer2/Exit" to="." method="_on_Exit_pressed"]

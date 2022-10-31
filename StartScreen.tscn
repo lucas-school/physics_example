@@ -62,9 +62,9 @@ align = 1
 valign = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="Home"]
-margin_left = 344.0
+margin_left = 343.0
 margin_top = 240.0
-margin_right = 640.0
+margin_right = 639.0
 margin_bottom = 320.0
 
 [node name="Start" type="TextureButton" parent="Home/MarginContainer2"]

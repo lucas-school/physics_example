@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ARIBL0.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://HUD.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://art/Pixel Game UI/Assets/Hotbar_7.png" type="Texture" id=4]
 [ext_resource path="res://art/Pixel Game UI/Assets/Hotbar_4.png" type="Texture" id=5]
 [ext_resource path="res://art/Pixel Game UI/Assets/Hotbar_2.png" type="Texture" id=6]
+[ext_resource path="res://Inventory.tscn" type="PackedScene" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -77,3 +78,10 @@ margin_right = 258.0
 margin_bottom = 56.0
 texture = ExtResource( 6 )
 stretch_mode = 1
+
+[node name="Inventory" parent="." instance=ExtResource( 7 )]
+visible = false
+position = Vector2( 39, 278 )
+
+[node name="InventoryTimer" type="Timer" parent="Inventory"]
+one_shot = true

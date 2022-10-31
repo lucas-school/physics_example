@@ -56,7 +56,9 @@ func _ready():
 	damage_overlay_box.visible = false
 	randomize()
 
+
 func _physics_process(delta):
+	damage_overlay_box.rect_size = get_viewport().size
 	
 	# update drawings
 	update()
@@ -190,12 +192,21 @@ func _physics_process(delta):
 		
 	damage_overlay_box.color = Color(1,0,0,damage_overlay_opacity)
 
-	
-	
-	
 
 # line drawing code from 
 #https://godotengine.org/qa/3829/how-to-draw-a-line-in-2d
 func _draw():
 	if moving_on_grapple:
 		draw_line(Vector2.ZERO, to_local(draw_list), Color(1.0, 1.0, 1.0, 1.0), 3)
+
+
+# inventory things
+func read_from_JSON(path):
+	var file = File.new()
+	if file.file_exists(path):
+		file.open(path, File.READ)
+		var data = parse_json(file.get_as_text())
+		file.close()
+		return data
+	else:
+		printerr("Invalid path given")

@@ -49,7 +49,7 @@ func _on_TextureButton_pressed():
 
 
 func _on_Settings_pressed():
-	tween.interpolate_property(camera,"position",Vector2(512,304),
+	tween.interpolate_property(camera,"position",camera.position,
 	Vector2(3512,304),1.5,Tween.TRANS_EXPO, 
 	Tween.EASE_IN_OUT)
 	
@@ -65,7 +65,7 @@ func _on_Exit_pressed():
 
 
 func _on_Credits_pressed():
-	tween.interpolate_property(camera,"position",Vector2(512,304),
+	tween.interpolate_property(camera,"position",camera.position,
 	Vector2(-2488,304),1.5,Tween.TRANS_EXPO, 
 	Tween.EASE_IN_OUT)
 	
